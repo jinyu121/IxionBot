@@ -1,0 +1,5 @@
+certifi==2018.1.18
+easydict==1.7
+future==0.16.0
+python-telegram-bot==9.0.0
+PyYAML==3.12

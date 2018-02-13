@@ -1,0 +1,9 @@
+debug: False
+token : "YOUR_TOKEN_HERE"
+command: ['start']
+message_filter: ['echo']
+
+config:
+  no_sticker:
+    message: "不要发贴纸喵！"
+    delete: True
