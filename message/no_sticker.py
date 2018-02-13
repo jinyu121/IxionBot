@@ -11,7 +11,7 @@ def active(dispatcher, group):
 
 
 def func(bot, update):
-    config = Config.get_config('no_sticker')
+    config = Config.get_config(__file__)
 
     warn_message = config.get('message', "")
     if "" != warn_message.strip():

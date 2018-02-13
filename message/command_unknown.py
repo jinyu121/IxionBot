@@ -10,7 +10,8 @@ def active(dispatcher, group):
 
 
 def command(bot, update):
-    config = Config.get_config('command_unknown')
+    config = Config.get_config(__file__)
+
     warn_message = config.get('message', "")
     if "" != warn_message.strip():
         bot.send_message(chat_id=update.message.chat_id, text=warn_message)

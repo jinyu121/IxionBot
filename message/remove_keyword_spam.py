@@ -12,8 +12,8 @@ _keyword = []
 
 def active(dispatcher, group):
     global _keyword
+    config = Config.get_config(__file__)
 
-    config = Config.get_config("remove_keyword_spam")
     keywork_file = Path(config.get("list", ""))
     if keywork_file.exists():
         _keyword = [line.strip() for line in keywork_file.open()]
@@ -23,7 +23,7 @@ def active(dispatcher, group):
 
 def func(bot, update):
     global _keyword
-    config = Config.get_config('remove_keyword_spam')
+    config = Config.get_config(__file__)
 
     if any(s in update.message.text for s in _keyword):
         warn_message = config.get('message', "")

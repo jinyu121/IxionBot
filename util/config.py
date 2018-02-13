@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 
+from pathlib import Path
+
 import yaml
 from easydict import EasyDict
 
@@ -15,4 +17,4 @@ class Config:
         if name is None:
             return cls.__config
         else:
-            return cls.__config.config.get(name, {})
+            return cls.__config.config.get(Path(name).name.strip(".py"), {})
