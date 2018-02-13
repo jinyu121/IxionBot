@@ -25,6 +25,7 @@ def main():
         module.active(dispatcher)
 
     updater.start_polling()
+    updater.idle()
 
 
 if "__main__" == __name__:
