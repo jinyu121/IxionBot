@@ -7,4 +7,8 @@ from util.config import Config
 
 class BaseCommand:
     def __init__(self, filename):
-        self.config = Config.get_config(Path(filename).name.strip(".py"))
+        module_name = Path(filename).name.strip(".py")
+        self.__config = Config.get_config(module_name)
+
+    def config(self, name, default=None):
+        return self.__config.get(name, default)

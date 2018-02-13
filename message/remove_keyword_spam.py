@@ -5,34 +5,31 @@ from pathlib import Path
 from telegram.ext import Filters, MessageHandler
 from telegram.ext.dispatcher import DispatcherHandlerStop
 
-from util.config import Config
-
-_keyword = []
+from . import BaseMessage
 
 
-def active(dispatcher, group):
-    global _keyword
-    config = Config.get_config(__file__)
+class RemoveKeywordSpam(BaseMessage):
+    def __init__(self):
+        super().__init__(__file__)
 
-    keywork_file = Path(config.get("list", ""))
-    if keywork_file.exists():
-        _keyword = [line.strip() for line in keywork_file.open()]
+        self.keyword = []
+        keyword_file = Path(self.config("list", ""))
+        if keyword_file.exists():
+            self.keyword = [line.strip() for line in keyword_file.open()]
 
-    dispatcher.add_handler(MessageHandler(Filters.text, func), group=group)
+    def active(self, dispatcher, group):
+        dispatcher.add_handler(MessageHandler(Filters.text, self.func), group=group)
 
+    def func(self, bot, update):
 
-def func(bot, update):
-    global _keyword
-    config = Config.get_config(__file__)
+        if any(s in update.message.text for s in self.keyword):
+            warn_message = self.config('message', "")
+            if "" != warn_message.strip():
+                bot.send_message(chat_id=update.message.chat_id, text=warn_message)
 
-    if any(s in update.message.text for s in _keyword):
-        warn_message = config.get('message', "")
-        if "" != warn_message.strip():
-            bot.send_message(chat_id=update.message.chat_id, text=warn_message)
+            try:
+                bot.delete_message(chat_id=update.message.chat_id, message_id=update.message.message_id)
+            except Exception as e:
+                pass
 
-        try:
-            bot.delete_message(chat_id=update.message.chat_id, message_id=update.message.message_id)
-        except Exception as e:
-            pass
-
-        raise DispatcherHandlerStop()
+            raise DispatcherHandlerStop()

@@ -2,10 +2,15 @@
 
 from telegram.ext import Filters, MessageHandler
 
-
-def active(dispatcher, group):
-    dispatcher.add_handler(MessageHandler(Filters.text, func), group=group)
+from . import BaseMessage
 
 
-def func(bot, update):
-    bot.send_message(chat_id=update.message.chat_id, text="“{}”".format(update.message.text))
+class Echo(BaseMessage):
+    def __init__(self):
+        super().__init__(__file__)
+
+    def active(self, dispatcher, group):
+        dispatcher.add_handler(MessageHandler(Filters.text, self.func), group=group)
+
+    def func(self, bot, update):
+        bot.send_message(chat_id=update.message.chat_id, text="“{}”".format(update.message.text))

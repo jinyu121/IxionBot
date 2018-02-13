@@ -24,7 +24,8 @@ def main():
 
     for ith, name in enumerate(["command_unknown"] + config.message_filter):
         module = importlib.import_module('{}.{}'.format("message", name))
-        module.active(dispatcher, ith)
+        cls = getattr(module, get_package_class(name))
+        cls().active(dispatcher, ith)
 
     updater.start_polling()
     updater.idle()
