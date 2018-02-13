@@ -3,8 +3,8 @@
 from telegram.ext import Filters, MessageHandler
 
 
-def active(dispatcher):
-    dispatcher.add_handler(MessageHandler(Filters.text, func))
+def active(dispatcher, group):
+    dispatcher.add_handler(MessageHandler(Filters.text, func), group=group)
 
 
 def func(bot, update):

@@ -1,11 +1,14 @@
 debug: False
 token : "YOUR_TOKEN_HERE"
 command: ['start']
-message_filter: ['echo']
+message_filter: ['remove_keyword_spam','no_sticker','no_join_group_message','echo']
 
 config:
+  command_unknown:
+    message: "这是啥指令了喵？"
   no_sticker:
     message: "不要发贴纸喵！"
     delete: True
-  remove_keywork_spam:
+  remove_keyword_spam:
+    message: "关键词违禁了喵！"
     list: "data/keyword_spam.txt"

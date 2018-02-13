@@ -20,9 +20,9 @@ def main():
         module = importlib.import_module('{}.{}'.format("command", name))
         module.active(dispatcher)
 
-    for name in config.message_filter + ["command_unknown"]:
+    for ith, name in enumerate(["command_unknown"] + config.message_filter):
         module = importlib.import_module('{}.{}'.format("message", name))
-        module.active(dispatcher)
+        module.active(dispatcher, ith)
 
     updater.start_polling()
     updater.idle()

@@ -1,12 +1,13 @@
 # -*- coding: utf-8 -*-
 
 from telegram.ext import Filters, MessageHandler
+from telegram.ext.dispatcher import DispatcherHandlerStop
 
 from util.config import Config
 
 
-def active(dispatcher):
-    dispatcher.add_handler(MessageHandler(Filters.sticker, func))
+def active(dispatcher, group):
+    dispatcher.add_handler(MessageHandler(Filters.sticker, func), group=group)
 
 
 def func(bot, update):
@@ -18,3 +19,4 @@ def func(bot, update):
 
     if config.get('delete', False):
         bot.delete_message(chat_id=update.message.chat_id, message_id=update.message.message_id)
+        raise DispatcherHandlerStop()
