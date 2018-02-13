@@ -18,5 +18,9 @@ def func(bot, update):
         bot.send_message(chat_id=update.message.chat_id, text=warn_message)
 
     if config.get('delete', False):
-        bot.delete_message(chat_id=update.message.chat_id, message_id=update.message.message_id)
+        try:
+            bot.delete_message(chat_id=update.message.chat_id, message_id=update.message.message_id)
+        except Exception as e:
+            pass
+
         raise DispatcherHandlerStop()

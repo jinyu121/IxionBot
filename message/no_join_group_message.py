@@ -9,5 +9,9 @@ def active(dispatcher, group):
 
 
 def func(bot, update):
-    bot.delete_message(chat_id=update.message.chat_id, message_id=update.message.message_id)
+    try:
+        bot.delete_message(chat_id=update.message.chat_id, message_id=update.message.message_id)
+    except Exception as e:
+        pass
+
     raise DispatcherHandlerStop()

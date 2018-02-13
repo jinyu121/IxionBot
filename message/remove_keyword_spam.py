@@ -30,5 +30,9 @@ def func(bot, update):
         if "" != warn_message.strip():
             bot.send_message(chat_id=update.message.chat_id, text=warn_message)
 
-        bot.delete_message(chat_id=update.message.chat_id, message_id=update.message.message_id)
+        try:
+            bot.delete_message(chat_id=update.message.chat_id, message_id=update.message.message_id)
+        except Exception as e:
+            pass
+
         raise DispatcherHandlerStop()
