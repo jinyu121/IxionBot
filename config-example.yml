@@ -7,3 +7,5 @@ config:
   no_sticker:
     message: "不要发贴纸喵！"
     delete: True
+  remove_keywork_spam:
+    list: "data/keyword_spam.txt"

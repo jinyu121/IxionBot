@@ -88,15 +88,9 @@ ENV/
 # Rope project settings
 .ropeproject
 
-# This project
-data/
-output/
-*.tfrecords
-*.cfg
-*.weights
-
 # IDE
 .idea/
 
-# Other
+# This project
+data/
 config.yml
