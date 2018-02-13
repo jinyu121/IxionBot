@@ -6,6 +6,7 @@ import logging
 from telegram.ext import Updater
 
 from util.config import Config
+from util.util import get_package_class
 
 
 def main():
@@ -18,7 +19,8 @@ def main():
 
     for name in config.command:
         module = importlib.import_module('{}.{}'.format("command", name))
-        module.active(dispatcher)
+        cls = getattr(module, get_package_class(name))
+        cls().active(dispatcher)
 
     for ith, name in enumerate(["command_unknown"] + config.message_filter):
         module = importlib.import_module('{}.{}'.format("message", name))
