@@ -13,4 +13,5 @@ class Echo(BaseMessage):
         dispatcher.add_handler(MessageHandler(Filters.text, self.func), group=group)
 
     def func(self, bot, update):
-        bot.send_message(chat_id=update.message.chat_id, text="“{}”".format(update.message.text))
+        fmt = self.config("format", "{}")
+        bot.send_message(chat_id=update.message.chat_id, text=fmt.format(update.message.text))

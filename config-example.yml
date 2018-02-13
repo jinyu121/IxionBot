@@ -4,6 +4,8 @@ command: ['start']
 message_filter: ['remove_keyword_spam','no_sticker','no_join_group_message','echo']
 
 config:
+  echo:
+    format: "你说了“{}”喵～"
   command_unknown:
     message: "这是啥指令了喵？"
   no_sticker:
