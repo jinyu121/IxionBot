@@ -8,6 +8,9 @@ from . import BaseMessage
 
 class NoJoinGroupMessage(BaseMessage):
     def __init__(self):
+        self.__config = {
+            "delete_error": ""
+        }
         super().__init__(__file__)
 
     def active(self, dispatcher, group):
@@ -17,6 +20,8 @@ class NoJoinGroupMessage(BaseMessage):
         try:
             bot.delete_message(chat_id=update.message.chat_id, message_id=update.message.message_id)
         except Exception as e:
-            pass
-
-        raise DispatcherHandlerStop()
+            error_message = self.config("delete_error")
+            if error_message:
+                bot.send_message(chat_id=update.message.chat_id, text=error_message)
+        finally:
+            raise DispatcherHandlerStop()
