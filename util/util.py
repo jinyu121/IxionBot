@@ -8,5 +8,13 @@ def get_package_class(name):
     return "".join(name)
 
 
-def keyword_format(format_string, content_map):
-    return format_string.format_map(defaultdict(str, **content_map))
+def format_with_dict(format_string, content_dict):
+    return format_string.format_map(defaultdict(str, **content_dict))
+
+
+def send_message(bot, message, text, reply=False):
+    if text:
+        if reply:
+            message.reply_text(text)
+        else:
+            bot.send_message(chat_id=message.chat_id, text=text)

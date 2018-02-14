@@ -2,6 +2,7 @@
 
 from telegram.ext import Filters, MessageHandler
 
+from util.util import send_message
 from . import BaseMessage
 
 
@@ -17,8 +18,4 @@ class CommandUnknown(BaseMessage):
         dispatcher.add_handler(MessageHandler(Filters.command, self.command), group=group)
 
     def command(self, bot, update):
-        if self.config.message:
-            if self.config.reply:
-                update.message.reply_text(self.config.message)
-            else:
-                bot.send_message(chat_id=update.message.chat_id, text=self.config.message)
+        send_message(bot, update.message, self.config.message, self.config.reply)

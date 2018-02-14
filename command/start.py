@@ -2,6 +2,7 @@
 
 from telegram.ext import CommandHandler
 
+from util.util import send_message
 from . import BaseCommand
 
 
@@ -16,5 +17,4 @@ class Start(BaseCommand):
         dispatcher.add_handler(CommandHandler("start", self.command))
 
     def command(self, bot, update):
-        if self.config.message:
-            bot.send_message(chat_id=update.message.chat_id, text=self.config.message)
+        send_message(bot, update.message, self.config.message)

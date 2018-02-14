@@ -3,7 +3,9 @@
 from telegram.ext import Filters, MessageHandler
 from telegram.ext.dispatcher import DispatcherHandlerStop
 
-from util.util import keyword_format
+from util.punish import delete_message
+from util.util import format_with_dict
+from util.util import send_message
 from . import BaseMessage
 
 
@@ -23,14 +25,9 @@ class NoLeftGroupMessage(BaseMessage):
         if update.message.left_chat_member:
             if self.config.message:
                 new_chat_member = update.message.left_chat_member
-                text = keyword_format(self.config.message, new_chat_member.__dict__)
-                bot.send_message(chat_id=update.message.chat_id, text=text)
+                text = format_with_dict(self.config.message, new_chat_member.__dict__)
+                send_message(bot, update.message, text)
 
-            if self.config.delete and "supergroup" == update.message.chat.type:
-                try:
-                    bot.delete_message(chat_id=update.message.chat_id, message_id=update.message.message_id)
-                except Exception as e:
-                    if self.config.delete_error:
-                        bot.send_message(chat_id=update.message.chat_id, text=self.config.delete_error)
-                finally:
-                    raise DispatcherHandlerStop()
+            if self.config.delete:
+                delete_message(bot, update.message, self.config.delete_error)
+                raise DispatcherHandlerStop()

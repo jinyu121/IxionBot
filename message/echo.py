@@ -2,6 +2,7 @@
 
 from telegram.ext import Filters, MessageHandler
 
+from util.util import send_message
 from . import BaseMessage
 
 
@@ -18,8 +19,4 @@ class Echo(BaseMessage):
 
     def func(self, bot, update):
         text = self.config.format.format(update.message.text)
-
-        if self.config.reply:
-            update.message.reply_text(text)
-        else:
-            bot.send_message(chat_id=update.message.chat_id, text=text)
+        send_message(bot, update.message, text, self.config.reply)

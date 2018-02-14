@@ -5,6 +5,8 @@ from pathlib import Path
 from telegram.ext import Filters, MessageHandler
 from telegram.ext.dispatcher import DispatcherHandlerStop
 
+from util.punish import delete_message
+from util.util import send_message
 from . import BaseMessage
 
 
@@ -28,14 +30,9 @@ class NoSpamKeyword(BaseMessage):
     def func(self, bot, update):
         text = update.message.text.lower()
         if any(s in text for s in self.keyword_list):
-            if self.config.message:
-                bot.send_message(chat_id=update.message.chat_id, text=self.config.message)
+            send_message(bot, update.message, self.config.message)
 
-            if self.config.delete and "supergroup" == update.message.chat.type:
-                try:
-                    bot.delete_message(chat_id=update.message.chat_id, message_id=update.message.message_id)
-                except Exception as e:
-                    if self.config.delete_error:
-                        bot.send_message(chat_id=update.message.chat_id, text=self.config.delete_error)
+            if self.config.delete:
+                delete_message(bot, update.message, self.config.delete_error)
 
             raise DispatcherHandlerStop()
