@@ -5,6 +5,7 @@ message_filter: ['remove_keyword_spam','no_sticker','no_join_group_message','ech
 
 config:
   echo:
+    reply: True
     format: "你说了“{}”喵～"
   command_unknown:
     message: "这是啥指令了喵？"

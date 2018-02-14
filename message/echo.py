@@ -14,4 +14,9 @@ class Echo(BaseMessage):
 
     def func(self, bot, update):
         fmt = self.config("format", "{}")
-        bot.send_message(chat_id=update.message.chat_id, text=fmt.format(update.message.text))
+        text = fmt.format(update.message.text)
+
+        if self.config("reply", False):
+            update.message.reply_text(text)
+        else:
+            bot.send_message(chat_id=update.message.chat_id, text=text)
