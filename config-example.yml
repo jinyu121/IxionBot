@@ -2,11 +2,9 @@ debug: False
 token : "YOUR_TOKEN_HERE"
 command: ['start']
 message_filter: [
-  'no_spam_keyword',
   'no_spam_regex',
   'no_sticker',
-  'no_join_group_message',
-  'no_left_group_message',
+  'no_join_left_group_message',
   'echo']
 
 config:
@@ -17,26 +15,18 @@ config:
     format: "“{}”"
   command_unknown:
     reply: True
-    message: "这是啥指令个喵？"
-  no_join_group_message:
-    message: "欢迎 {username} 喵～"
+    message: "这是啥个指令喵？"
+  no_join_left_group_message:
+    message_join: "欢迎 {username} 喵～"
+    message_left: "{username} 消失了喵～"
     delete: True
-    delete_error: "加群消息删除失败了喵～"
-  no_left_group_message:
-    message: "{username} 消失了喵～"
-    delete: True
-    delete_error: "退群消息删除失败了喵～"
+    delete_error: "消息删除失败了喵～"
   no_sticker:
     message: "不要发贴纸喵！"
     delete: True
     delete_error: "贴纸删除失败了喵～"
   no_spam_keyword:
     list: "data/spam_keyword.txt"
-    message: "关键词违禁了喵！"
-    delete: True
-    delete_error: "消息删除失败了喵～"
-  no_spam_regex:
-    list: "data/spam_regex.txt"
     message: "关键词违禁了喵！"
     delete: True
     delete_error: "消息删除失败了喵～"

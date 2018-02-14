@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+import re
 from pathlib import Path
 
 from telegram.ext import Filters, MessageHandler
@@ -19,17 +20,18 @@ class NoSpamKeyword(BaseMessage):
         }
         super().__init__(__file__)
 
-        self.keyword_list = []
+        self.regex_list = []
         keyword_file = Path(self.config.list)
         if keyword_file.exists():
-            self.keyword_list = [line.lower().strip() for line in keyword_file.open()]
+            self.regex_list = [re.compile(line.lower().strip(), re.IGNORECASE)
+                               for line in keyword_file.open()]
 
     def active(self, dispatcher, group):
         dispatcher.add_handler(MessageHandler(Filters.group & Filters.text, self.func), group=group)
 
     def func(self, bot, update):
         text = update.message.text.lower()
-        if any(s in text for s in self.keyword_list):
+        if any(s.search(text) for s in self.regex_list):
             send_message(bot, update.message, self.config.message)
 
             if self.config.delete:
