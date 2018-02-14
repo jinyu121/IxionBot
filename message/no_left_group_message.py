@@ -7,7 +7,7 @@ from util.util import keyword_format
 from . import BaseMessage
 
 
-class NoJoinGroupMessage(BaseMessage):
+class NoLeftGroupMessage(BaseMessage):
     def __init__(self):
         self.config = {
             "message": "",
@@ -20,11 +20,11 @@ class NoJoinGroupMessage(BaseMessage):
         dispatcher.add_handler(MessageHandler(Filters.status_update, self.func), group=group)
 
     def func(self, bot, update):
-        if update.message.new_chat_members:
+        if update.message.left_chat_member:
             if self.config.message:
-                for new_chat_member in update.message.new_chat_members:
-                    text = keyword_format(self.config.message, new_chat_member.__dict__)
-                    bot.send_message(chat_id=update.message.chat_id, text=text)
+                new_chat_member = update.message.left_chat_member
+                text = keyword_format(self.config.message, new_chat_member.__dict__)
+                bot.send_message(chat_id=update.message.chat_id, text=text)
 
             if self.config.delete:
                 try:
