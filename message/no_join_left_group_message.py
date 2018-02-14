@@ -30,7 +30,7 @@ class NoJoinLeftGroupMessage(BaseMessage):
                 for chat_member in update.message.new_chat_members:
                     text = format_with_dict(self.config.message_join, chat_member.__dict__)
                     send_message(bot, update.message, text)
-                processed = True
+            processed = True
 
         elif update.message.left_chat_member:
             if self.config.message_left:
