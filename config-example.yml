@@ -1,11 +1,11 @@
 debug: False
 token : "YOUR_TOKEN_HERE"
 command: ['start']
-message_filter: ['remove_keyword_spam','no_sticker','no_join_group_message','no_left_group_message','echo']
+message_filter: ['no_keyword_spam','no_sticker','no_join_group_message','no_left_group_message','echo']
 
 config:
   start:
-    message: "Hi~"
+    message: "喵～"
   echo:
     reply: True
     format: "“{}”"
@@ -24,7 +24,7 @@ config:
     message: "不要发贴纸喵！"
     delete: True
     delete_error: "贴纸删除失败了喵～"
-  remove_keyword_spam:
+  no_keyword_spam:
     list: "data/keyword_spam.txt"
     message: "关键词违禁了喵！"
     delete: True

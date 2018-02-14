@@ -8,7 +8,7 @@ from telegram.ext.dispatcher import DispatcherHandlerStop
 from . import BaseMessage
 
 
-class RemoveKeywordSpam(BaseMessage):
+class NoKeywordSpam(BaseMessage):
     def __init__(self):
         self.config = {
             "list": "data/keyword_spam.txt",
@@ -23,7 +23,7 @@ class RemoveKeywordSpam(BaseMessage):
             self.keyword = [line.lower().strip() for line in keyword_file.open()]
 
     def active(self, dispatcher, group):
-        dispatcher.add_handler(MessageHandler(Filters.text, self.func), group=group)
+        dispatcher.add_handler(MessageHandler(Filters.group & Filters.text, self.func), group=group)
 
     def func(self, bot, update):
         text = update.message.text.lower()
@@ -31,10 +31,11 @@ class RemoveKeywordSpam(BaseMessage):
             if self.config.message:
                 bot.send_message(chat_id=update.message.chat_id, text=self.config.message)
 
-            try:
-                bot.delete_message(chat_id=update.message.chat_id, message_id=update.message.message_id)
-            except Exception as e:
-                if self.config.delete_error:
-                    bot.send_message(chat_id=update.message.chat_id, text=self.config.delete_error)
-            finally:
-                raise DispatcherHandlerStop()
+            if self.config.delete and "supergroup" == update.message.chat.type:
+                try:
+                    bot.delete_message(chat_id=update.message.chat_id, message_id=update.message.message_id)
+                except Exception as e:
+                    if self.config.delete_error:
+                        bot.send_message(chat_id=update.message.chat_id, text=self.config.delete_error)
+
+            raise DispatcherHandlerStop()

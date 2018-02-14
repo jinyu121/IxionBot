@@ -16,13 +16,13 @@ class NoSticker(BaseMessage):
         super().__init__(__file__)
 
     def active(self, dispatcher, group):
-        dispatcher.add_handler(MessageHandler(Filters.sticker, self.func), group=group)
+        dispatcher.add_handler(MessageHandler(Filters.group & Filters.sticker, self.func), group=group)
 
     def func(self, bot, update):
         if self.config.message:
             bot.send_message(chat_id=update.message.chat_id, text=self.config.message)
 
-        if self.config.delete:
+        if self.config.delete and "supergroup" == update.message.chat.type:
             try:
                 bot.delete_message(chat_id=update.message.chat_id, message_id=update.message.message_id)
             except Exception as e:

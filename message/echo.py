@@ -14,11 +14,10 @@ class Echo(BaseMessage):
         super().__init__(__file__)
 
     def active(self, dispatcher, group):
-        dispatcher.add_handler(MessageHandler(Filters.text, self.func), group=group)
+        dispatcher.add_handler(MessageHandler(Filters.private & Filters.text, self.func), group=group)
 
     def func(self, bot, update):
-        fmt = self.config.format
-        text = fmt.format(update.message.text)
+        text = self.config.format.format(update.message.text)
 
         if self.config.reply:
             update.message.reply_text(text)

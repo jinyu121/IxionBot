@@ -17,7 +17,7 @@ class NoJoinGroupMessage(BaseMessage):
         super().__init__(__file__)
 
     def active(self, dispatcher, group):
-        dispatcher.add_handler(MessageHandler(Filters.status_update, self.func), group=group)
+        dispatcher.add_handler(MessageHandler(Filters.group & Filters.status_update, self.func), group=group)
 
     def func(self, bot, update):
         if update.message.new_chat_members:
@@ -26,7 +26,7 @@ class NoJoinGroupMessage(BaseMessage):
                     text = keyword_format(self.config.message, new_chat_member.__dict__)
                     bot.send_message(chat_id=update.message.chat_id, text=text)
 
-            if self.config.delete:
+            if self.config.delete and "supergroup" == update.message.chat.type:
                 try:
                     bot.delete_message(chat_id=update.message.chat_id, message_id=update.message.message_id)
                 except Exception as e:
