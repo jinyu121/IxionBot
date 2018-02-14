@@ -10,15 +10,15 @@ from . import BaseMessage
 
 class RemoveKeywordSpam(BaseMessage):
     def __init__(self):
-        self.__config = {
-            "list": "spam_keyword.txt",
+        self.config = {
+            "list": "data/keyword_spam.txt",
             'message': "",
             "delete_error": ""
         }
         super().__init__(__file__)
 
         self.keyword = []
-        keyword_file = Path(self.config("list"))
+        keyword_file = Path(self.config.list)
         if keyword_file.exists():
             self.keyword = [line.lower().strip() for line in keyword_file.open()]
 
@@ -28,15 +28,13 @@ class RemoveKeywordSpam(BaseMessage):
     def func(self, bot, update):
         text = update.message.text.lower()
         if any(s in text for s in self.keyword):
-            warn_message = self.config('message')
-            if warn_message.strip():
-                bot.send_message(chat_id=update.message.chat_id, text=warn_message)
+            if self.config.message:
+                bot.send_message(chat_id=update.message.chat_id, text=self.config.message)
 
             try:
                 bot.delete_message(chat_id=update.message.chat_id, message_id=update.message.message_id)
             except Exception as e:
-                error_message = self.config("delete_error")
-                if error_message:
-                    bot.send_message(chat_id=update.message.chat_id, text=error_message)
+                if self.config.delete_error:
+                    bot.send_message(chat_id=update.message.chat_id, text=self.config.delete_error)
             finally:
                 raise DispatcherHandlerStop()

@@ -7,7 +7,7 @@ from . import BaseCommand
 
 class Start(BaseCommand):
     def __init__(self):
-        self.__config = {
+        self.config = {
             "message": "Hello World!"
         }
         super().__init__(__file__)
@@ -16,6 +16,5 @@ class Start(BaseCommand):
         dispatcher.add_handler(CommandHandler("start", self.command))
 
     def command(self, bot, update):
-        text = self.config("message")
-        if text:
-            bot.send_message(chat_id=update.message.chat_id, text=text)
+        if self.config.message:
+            bot.send_message(chat_id=update.message.chat_id, text=self.config.message)

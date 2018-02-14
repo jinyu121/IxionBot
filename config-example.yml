@@ -4,14 +4,23 @@ command: ['start']
 message_filter: ['remove_keyword_spam','no_sticker','no_join_group_message','echo']
 
 config:
+  start:
+    message: "Hi~"
   echo:
     reply: True
-    format: "你说了“{}”喵～"
+    format: "“{}”"
   command_unknown:
+    reply: True
     message: "这是啥指令了喵？"
+  no_join_group_message:
+    message: "欢迎 {username} 喵～"
+    delete_error: "加群消息删除失败了喵～"
   no_sticker:
     message: "不要发贴纸喵！"
     delete: True
+    delete_error: "贴纸删除失败了喵～"
   remove_keyword_spam:
-    message: "关键词违禁了喵！"
     list: "data/keyword_spam.txt"
+    message: "关键词违禁了喵！"
+    delete: True
+    delete_error: "消息删除失败了喵～"

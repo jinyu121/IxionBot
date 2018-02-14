@@ -7,7 +7,8 @@ from . import BaseMessage
 
 class CommandUnknown(BaseMessage):
     def __init__(self):
-        self.__config = {
+        self.config = {
+            'reply': False,
             'message': ""
         }
         super().__init__(__file__)
@@ -16,6 +17,8 @@ class CommandUnknown(BaseMessage):
         dispatcher.add_handler(MessageHandler(Filters.command, self.command), group=group)
 
     def command(self, bot, update):
-        warn_message = self.config("message")
-        if warn_message:
-            bot.send_message(chat_id=update.message.chat_id, text=warn_message)
+        if self.config.message:
+            if self.config.reply:
+                update.message.reply_text(self.config.message)
+            else:
+                bot.send_message(chat_id=update.message.chat_id, text=self.config.message)
