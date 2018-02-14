@@ -1,7 +1,13 @@
 debug: False
 token : "YOUR_TOKEN_HERE"
 command: ['start']
-message_filter: ['no_keyword_spam','no_sticker','no_join_group_message','no_left_group_message','echo']
+message_filter: [
+  'no_spam_keyword',
+  'no_spam_regex',
+  'no_sticker',
+  'no_join_group_message',
+  'no_left_group_message',
+  'echo']
 
 config:
   start:
@@ -24,8 +30,13 @@ config:
     message: "不要发贴纸喵！"
     delete: True
     delete_error: "贴纸删除失败了喵～"
-  no_keyword_spam:
-    list: "data/keyword_spam.txt"
+  no_spam_keyword:
+    list: "data/spam_keyword.txt"
+    message: "关键词违禁了喵！"
+    delete: True
+    delete_error: "消息删除失败了喵～"
+  no_spam_regex:
+    list: "data/spam_regex.txt"
     message: "关键词违禁了喵！"
     delete: True
     delete_error: "消息删除失败了喵～"
