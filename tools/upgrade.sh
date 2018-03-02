@@ -1,5 +1,4 @@
-# Use colors, but only if connected to a terminal, and that terminal
-# supports them.
+# Use colors, but only if connected to a terminal, and that terminal supports them.
 if which tput >/dev/null 2>&1; then
     ncolors=$(tput colors)
 fi
@@ -19,11 +18,10 @@ else
   NORMAL=""
 fi
 
-printf "${BLUE}%s${NORMAL}\n" "Updating Oh My Zsh"
-cd "$ZSH"
+echo "${BLUE}Updating Ixion Bot${NORMAL}"
 if git pull --rebase --stat origin master
 then
-    printf "${GREEN}%s${NORMAL}\n" 'Update Success'
+    echo "${GREEN}Update Success${NORMAL}\n"
 else
-  printf "${RED}%s${NORMAL}\n" 'There was an error updating. Try again later?'
+    echo "${RED}There was an error updating. Try again later?${NORMAL}\n"
 fi
