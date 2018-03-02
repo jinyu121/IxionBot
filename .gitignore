@@ -93,4 +93,4 @@ ENV/
 
 # This project
 data/
-config.yml
+config*.yml

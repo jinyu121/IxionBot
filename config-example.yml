@@ -2,7 +2,7 @@ debug: False
 token : "YOUR_TOKEN_HERE"
 command: ['start']
 message_filter: [
-  'no_spam_regex',
+  'no_spam_keyword',
   'no_sticker',
   'no_join_left_group_message',
   'echo']
