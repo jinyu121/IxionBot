@@ -15,7 +15,7 @@ class Base:
         self.config = EasyDict(self.config)
 
         module_name = Path(filename).name.strip(".py")
-        self.config.update(Config.get_config(module_name))
+        self.config.update(Config.get_config(name=module_name))
         self.config = EasyDict(self.config)
 
         logging.info("\n\tModule: {} \n\tConfig: {}".format(module_name, self.config))

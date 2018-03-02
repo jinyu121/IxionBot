@@ -5,14 +5,19 @@ from easydict import EasyDict
 
 
 class Config:
-    __config = None
+    _config = None
+
+    @classmethod
+    def load_config(cls, filename=None):
+        if cls._config is None:
+            assert filename, "Should specify config name"
+            with open(filename) as f:
+                cls._config = EasyDict(yaml.load(f))
 
     @classmethod
     def get_config(cls, name=None):
-        if cls.__config is None:
-            with open("config.yml") as f:
-                cls.__config = EasyDict(yaml.load(f))
+        assert cls._config, "Should load config first"
         if name is None:
-            return cls.__config
+            return cls._config
         else:
-            return cls.__config.config.get(name, {})
+            return cls._config.config.get(name, {})
