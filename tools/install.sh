@@ -37,7 +37,7 @@ else
     echo "directory=${PWD}" >> $FILENAME
     echo "command=${PWD}/venv/bin/python3 ${PWD}/main.py" >> $FILENAME
     echo "autorestart=true" >> $FILENAME
-    # supervisorctl reload
-    supervisorctl start $PROGRAM
+    supervisorctl reload
+    #supervisorctl start $PROGRAM
     echo "${GREEN}Success${NORMAL}"
 fi
