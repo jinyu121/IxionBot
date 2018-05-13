@@ -13,6 +13,7 @@ class NoMuslim(BaseMessage):
     def __init__(self):
         self.config = {
             "delete": True,
+            "delete_error": "",
             "delete_all": True,
             "ban": True
         }
